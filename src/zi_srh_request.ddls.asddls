@@ -26,6 +26,7 @@ define root view entity ZI_SRH_REQUEST as select from ZSRH_REQUEST
     created_at as CreatedAt,
     last_changed_by as LastChangedBy,
     last_changed_at as LastChangedAt,
+    total_last_changed_at as TotalLastChangedAt,
 
     _Category,
     _Comments,

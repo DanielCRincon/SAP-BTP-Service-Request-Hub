@@ -1,0 +1,92 @@
+managed implementation in class zbp_i_srh_request unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_SRH_REQUEST
+persistent table zsrh_request
+draft table zsrh_request_d
+lock master
+total etag TotalLastChangedAt
+authorization master ( instance )
+etag master LastChangedAt
+{
+  create ( authorization : global );
+  update;
+  delete;
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft determine action Prepare;
+  draft action Resume;
+  action Submit result [1] $self;
+  field ( numbering : managed, readonly ) RequestUuid;
+  association _Comments { create; with draft; }
+  association _History  { create; with draft; }
+  mapping for zsrh_request
+  {
+    RequestUuid           = request_uuid;
+    Title                 = title;
+    Description           = description;
+    CategoryUuid          = category_uuid;
+    Priority              = priority;
+    Requester             = requester;
+    Assignee              = assignee;
+    Status                = status;
+    SystemName            = system_name;
+    AccessType            = access_type;
+    BusinessJustification = business_justification;
+    TargetDate            = target_date;
+    Resolution            = resolution;
+    CreatedBy             = created_by;
+    CreatedAt             = created_at;
+    LastChangedBy         = last_changed_by;
+    LastChangedAt         = last_changed_at;
+    TotalLastChangedAt    = total_last_changed_at;
+  }
+}
+
+define behavior for ZI_SRH_COMMENT //alias <alias_name>
+persistent table zsrh_comment
+draft table zsrh_comment_d
+lock dependent by _Request
+authorization dependent by _Request
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( numbering : managed, readonly ) CommentUuid;
+  field ( readonly ) RequestUuid;
+  association _Request { with draft; }
+  mapping for zsrh_comment
+  {
+    CommentUuid = comment_uuid;
+    RequestUuid = request_uuid;
+    CommentText = comment_text;
+    CreatedBy   = created_by;
+    CreatedAt   = created_at;
+  }
+}
+
+define behavior for ZI_SRH_HISTORY //alias <alias_name>
+persistent table zsrh_history
+draft table zsrh_history_d
+lock dependent by _Request
+authorization dependent by _Request
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( numbering : managed, readonly ) HistoryUuid;
+  field ( readonly ) RequestUuid;
+  association _Request { with draft; }
+    mapping for zsrh_history
+  {
+    HistoryUuid = history_uuid;
+    RequestUuid = request_uuid;
+    OldStatus   = old_status;
+    NewStatus   = new_status;
+    ActionCode  = action_code;
+    ChangedBy   = changed_by;
+    ChangedAt   = changed_at;
+  }
+}
