@@ -2,9 +2,12 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Service Request Interface'
 @Metadata.ignorePropagatedAnnotations: true
-define view entity ZI_SRH_REQUEST as select from ZSRH_REQUEST
+define root view entity ZI_SRH_REQUEST as select from ZSRH_REQUEST
   association [0..1] to ZI_SRH_CATEGORY as _Category
     on $projection.CategoryUUID = _Category.CategoryUUID
+
+    composition [0..*] of ZI_SRH_COMMENT as _Comments
+    composition [0..*] of ZI_SRH_HISTORY as _History
 {
 	key request_uuid as RequestUuid,
     title as Title,
@@ -24,5 +27,7 @@ define view entity ZI_SRH_REQUEST as select from ZSRH_REQUEST
     last_changed_by as LastChangedBy,
     last_changed_at as LastChangedAt,
 
-    _Category
+    _Category,
+    _Comments,
+    _History
 }
