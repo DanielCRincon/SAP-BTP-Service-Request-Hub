@@ -25,5 +25,9 @@ define root view entity ZC_SRH_REQUEST
       CreatedAt,
       LastChangedBy,
       LastChangedAt,
-      TotalLastChangedAt
+      TotalLastChangedAt,
+
+      _Category,
+      _Comments : redirected to composition child ZC_SRH_COMMENT,
+      _History  : redirected to composition child ZC_SRH_HISTORY
 }

@@ -6,7 +6,7 @@
     <DDLNAME>ZC_SRH_HISTORY</DDLNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
     <DDTEXT>Service Request History Consumption</DDTEXT>
-    <SOURCE_TYPE>W</SOURCE_TYPE>
+    <SOURCE_TYPE>P</SOURCE_TYPE>
    </DDLS>
   </asx:values>
  </asx:abap>
