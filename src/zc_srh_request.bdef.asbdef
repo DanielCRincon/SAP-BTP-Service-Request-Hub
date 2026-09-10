@@ -1,0 +1,37 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_SRH_REQUEST //alias <alias_name>
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Submit;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Prepare;
+  use action Resume;
+
+  use association _Comments { create; with draft; }
+  use association _History { create; with draft; }
+}
+
+define behavior for ZC_SRH_COMMENT //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _Request { with draft; }
+}
+
+define behavior for ZC_SRH_HISTORY //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _Request { with draft; }
+}

@@ -1,7 +1,7 @@
 @EndUserText.label: 'Service Request Hub Service'
 define service ZUI_SRH {
-  expose ZI_SRH_REQUEST as Requests;
-  expose ZI_SRH_COMMENT as Comments;
-  expose ZI_SRH_HISTORY as History;
-  expose ZI_SRH_CATEGORY as Categories;
+  expose ZC_SRH_REQUEST  as Requests;
+  expose ZC_SRH_COMMENT  as Comments;
+  expose ZC_SRH_HISTORY  as History;
+  expose ZC_SRH_CATEGORY as Categories;
 }
