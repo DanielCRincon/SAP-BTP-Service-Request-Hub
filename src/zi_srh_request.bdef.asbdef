@@ -18,7 +18,8 @@ etag master LastChangedAt
   draft action Discard;
   draft determine action Prepare;
   draft action Resume;
-  action Submit result [1] $self;
+  action (features : instance) Submit result [1] $self;
+  determination SetInitialStatus on modify { create; }
   field ( numbering : managed, readonly ) RequestUuid;
   association _Comments { create; with draft; }
   association _History  { create; with draft; }
