@@ -21,6 +21,7 @@ etag master LastChangedAt
   action (features : instance) Submit result [1] $self;
   determination SetInitialStatus on modify { create; }
   field ( numbering : managed, readonly ) RequestUuid;
+  field ( readonly ) Status;
   association _Comments { create; with draft; }
   association _History  { create; with draft; }
   mapping for zsrh_request
