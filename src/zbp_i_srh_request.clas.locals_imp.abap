@@ -44,14 +44,33 @@ CLASS lhc_ZI_SRH_REQUEST IMPLEMENTATION.
 
     READ ENTITIES OF ZI_SRH_REQUEST IN LOCAL MODE
       ENTITY ZI_SRH_REQUEST
-        FIELDS ( Status )
+        FIELDS ( Status Title Requester Priority Description )
         WITH CORRESPONDING #( keys )
       RESULT DATA(requests).
 
     DATA requests_to_update TYPE TABLE FOR UPDATE ZI_SRH_REQUEST.
 
     LOOP AT requests INTO DATA(request).
+        IF request-Title       IS INITIAL OR
+           request-Requester   IS INITIAL OR
+           request-Priority    IS INITIAL OR
+           request-Description IS INITIAL.
 
+           APPEND VALUE #(
+            %tky = request-%tky
+           ) TO failed-zi_srh_request.
+
+           APPEND VALUE #(
+             %tky = request-%tky
+             %msg = new_message_with_text(
+               severity = if_abap_behv_message=>severity-error
+               text     = 'Title, Requester, Priority and Description are required'
+             )
+           ) TO reported-zi_srh_request.
+
+           CONTINUE.
+
+        ENDIF.
       IF request-Status = 'DRAFT'.
 
         APPEND VALUE #(
