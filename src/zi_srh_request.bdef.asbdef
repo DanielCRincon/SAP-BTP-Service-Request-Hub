@@ -1,4 +1,4 @@
-managed implementation in class zbp_i_srh_request unique;
+managed with additional save implementation in class zbp_i_srh_request unique;
 strict ( 2 );
 with draft;
 
@@ -19,6 +19,8 @@ etag master LastChangedAt
   draft determine action Prepare;
   draft action Resume;
   action (features : instance) Submit result [1] $self;
+  event RequestSubmitted parameter ZA_SRH_REQUEST_SUBMITTED;
+  //Aca declaramos que existe un evento de negocio Request Submitted
   determination SetInitialStatus on modify { create; }
   field ( numbering : managed, readonly ) RequestUuid;
   field ( readonly ) Status;

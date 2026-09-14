@@ -64,7 +64,7 @@ CLASS lhc_ZI_SRH_REQUEST IMPLEMENTATION.
              %tky = request-%tky
              %msg = new_message_with_text(
                severity = if_abap_behv_message=>severity-error
-               text     = 'Title, Requester, Priority and Description are required'
+               text     = 'Required: Title, Requester, Priority, Description'
              )
            ) TO reported-zi_srh_request.
 
@@ -166,4 +166,52 @@ CLASS lhc_ZI_SRH_REQUEST IMPLEMENTATION.
         ).
 
   ENDMETHOD.
+ENDCLASS.
+CLASS lsc_ZI_SRH_REQUEST DEFINITION
+  INHERITING FROM cl_abap_behavior_saver.
+
+  PROTECTED SECTION.
+
+    METHODS save_modified REDEFINITION.
+
+ENDCLASS.
+
+CLASS lsc_ZI_SRH_REQUEST IMPLEMENTATION.
+
+  METHOD save_modified.
+
+    IF update-zi_srh_request IS NOT INITIAL.
+
+      LOOP AT update-zi_srh_request INTO DATA(request).
+
+        IF request-%control-Status = if_abap_behv=>mk-on
+          AND request-Status = 'SUBMITTED'.
+
+          GET TIME STAMP FIELD DATA(lv_changed_at).
+
+          DATA(lv_changed_by) =
+            cl_abap_context_info=>get_user_technical_name( ).
+
+          RAISE ENTITY EVENT ZI_SRH_REQUEST~RequestSubmitted
+            FROM VALUE #(
+              (
+                %key = request-%key
+                %param = VALUE #(
+                  OldStatus  = 'DRAFT'
+                  NewStatus  = 'SUBMITTED'
+                  ActionCode = 'SUBMIT'
+                  ChangedBy  = lv_changed_by
+                  ChangedAt  = lv_changed_at
+                )
+              )
+            ).
+
+        ENDIF.
+
+      ENDLOOP.
+
+    ENDIF.
+
+  ENDMETHOD.
+
 ENDCLASS.
