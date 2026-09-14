@@ -1,0 +1,19 @@
+@Metadata.layer: #CORE
+
+annotate entity ZC_SRH_HISTORY with
+{
+  @UI.lineItem: [ { position: 10, label: 'Action' } ]
+  ActionCode;
+
+  @UI.lineItem: [ { position: 20, label: 'Old Status' } ]
+  OldStatus;
+
+  @UI.lineItem: [ { position: 30, label: 'New Status' } ]
+  NewStatus;
+
+  @UI.lineItem: [ { position: 40, label: 'Changed By' } ]
+  ChangedBy;
+
+  @UI.lineItem: [ { position: 50, label: 'Changed At' } ]
+  ChangedAt;
+}
